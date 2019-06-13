@@ -129,7 +129,8 @@
 				var hdrUrls = [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ];
 				hdrCubeMap = new THREE.HDRCubeTextureLoader()
 					.setPath( './textures/cube/pisaHDR/' )
-					.load( THREE.UnsignedByteType, hdrUrls, function () {
+					.setType( THREE.UnsignedByteType )
+					.load(hdrUrls, function () {
 
 						var pmremGenerator = new THREE.PMREMGenerator( hdrCubeMap );
 						pmremGenerator.update( renderer );
