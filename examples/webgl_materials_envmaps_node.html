@@ -73,6 +73,7 @@
 			var nodeMaterial;
 			var ldrCubeRenderTarget, hdrCubeRenderTarget, rgbmCubeRenderTarget;
 			var ldrCubeMap, hdrCubeMap, rgbmCubeMap;
+			var reflectionProbe;
 
 			init();
 			animate();
@@ -114,7 +115,6 @@
 				torusMeshNode.position.y = -35;
 				scene.add( torusMeshNode );
 
-
 				var geometry = new THREE.PlaneBufferGeometry( 200, 200 );
 				var material = new THREE.MeshBasicMaterial();
 
@@ -122,6 +122,9 @@
 				planeMesh.position.y = - 50;
 				planeMesh.rotation.x = - Math.PI * 0.5;
 				scene.add( planeMesh );
+
+				reflectionProbe = new THREE.ReflectionProbe();
+				scene.add(reflectionProbe);
 
 				var hdrUrls = [ 'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr' ];
 				hdrCubeMap = new THREE.HDRCubeTextureLoader()
@@ -267,9 +270,10 @@
 
 				var newEnvMap = renderTarget ? renderTarget.texture : null;
 
-				if ( newEnvMap && newEnvMap !== torusMesh.material.envMap ) {
+				if ( newEnvMap && newEnvMap !== reflectionProbe.map ) {
 
-					torusMesh.material.envMap = newEnvMap;
+					reflectionProbe.map = newEnvMap;
+
 					torusMesh.material.needsUpdate = true;
 
 					planeMesh.material.map = newEnvMap;
@@ -293,6 +297,7 @@
 						new THREE.FloatNode(Math.PI),
 						THREE.OperatorNode.MUL);
 
+					console.log('New Env Map')
 					nodeMaterial.needsUpdate = true;
 
 				}
