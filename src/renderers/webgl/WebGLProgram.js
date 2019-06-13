@@ -263,7 +263,7 @@ function WebGLProgram( renderer, extensions, code, material, shader, parameters,
 
 	if ( parameters.envMap ) {
 
-		switch ( material.envMap.mapping ) {
+		switch ( parameters.envMapMode ) {
 
 			case CubeReflectionMapping:
 			case CubeRefractionMapping:
@@ -286,7 +286,7 @@ function WebGLProgram( renderer, extensions, code, material, shader, parameters,
 
 		}
 
-		switch ( material.envMap.mapping ) {
+		switch ( parameters.envMapMode ) {
 
 			case CubeRefractionMapping:
 			case EquirectangularRefractionMapping:

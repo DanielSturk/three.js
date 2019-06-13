@@ -18,6 +18,8 @@ var UniformsLib = {
 
 		alphaMap: { value: null },
 
+		reflectivity: { value: 1.0 },
+
 	},
 
 	specularmap: {
@@ -29,8 +31,8 @@ var UniformsLib = {
 	envmap: {
 
 		envMap: { value: null },
+		envMapIntensity: { value: 1 },
 		flipEnvMap: { value: - 1 },
-		reflectivity: { value: 1.0 },
 		refractionRatio: { value: 0.98 },
 		maxMipLevel: { value: 0 }
 
@@ -110,6 +112,8 @@ var UniformsLib = {
 		ambientLightColor: { value: [] },
 
 		lightProbe: { value: [] },
+
+		reflectionProbe: { value: null },
 
 		directionalLights: { value: [], properties: {
 			direction: {},

@@ -10,6 +10,7 @@ function WebGLRenderState() {
 
 	var lightsArray = [];
 	var shadowsArray = [];
+	var reflectionsArray = [];
 
 	function init() {
 
@@ -21,6 +22,12 @@ function WebGLRenderState() {
 	function pushLight( light ) {
 
 		lightsArray.push( light );
+
+	}
+
+	function pushReflection ( reflection ) {
+
+		reflectionsArray.push( reflection );
 
 	}
 
@@ -38,6 +45,7 @@ function WebGLRenderState() {
 
 	var state = {
 		lightsArray: lightsArray,
+		reflectionsArray: reflectionsArray,
 		shadowsArray: shadowsArray,
 
 		lights: lights
@@ -49,6 +57,7 @@ function WebGLRenderState() {
 		setupLights: setupLights,
 
 		pushLight: pushLight,
+		pushReflection: pushReflection,
 		pushShadow: pushShadow
 	};
 
