@@ -18,6 +18,7 @@ function StandardNodeMaterial() {
 
 StandardNodeMaterial.prototype = Object.create( NodeMaterial.prototype );
 StandardNodeMaterial.prototype.constructor = StandardNodeMaterial;
+StandardNodeMaterial.prototype.isStandardNodeMaterial = true;
 
 NodeUtils.addShortcuts( StandardNodeMaterial.prototype, 'fragment', [
 	'color',

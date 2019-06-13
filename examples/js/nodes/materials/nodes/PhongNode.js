@@ -35,7 +35,8 @@ PhongNode.prototype.build = function ( builder ) {
 		builder.mergeUniform( THREE.UniformsUtils.merge( [
 
 			THREE.UniformsLib.fog,
-			THREE.UniformsLib.lights
+			THREE.UniformsLib.lights,
+			THREE.UniformsLib.envmap
 
 		] ) );
 

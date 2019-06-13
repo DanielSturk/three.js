@@ -113,8 +113,6 @@ var UniformsLib = {
 
 		lightProbe: { value: [] },
 
-		reflectionProbe: { value: null },
-
 		directionalLights: { value: [], properties: {
 			direction: {},
 			color: {},

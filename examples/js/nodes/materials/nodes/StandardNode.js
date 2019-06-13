@@ -38,7 +38,8 @@ StandardNode.prototype.build = function ( builder ) {
 		builder.mergeUniform( THREE.UniformsUtils.merge( [
 
 			THREE.UniformsLib.fog,
-			THREE.UniformsLib.lights
+			THREE.UniformsLib.lights,
+			THREE.UniformsLib.envmap
 
 		] ) );
 
@@ -175,6 +176,8 @@ StandardNode.prototype.build = function ( builder ) {
 
 			"varying vec3 vViewPosition;",
 
+			"#define PHYSICAL",
+
 			"#ifndef FLAT_SHADED",
 
 			"	varying vec3 vNormal;",
@@ -184,6 +187,9 @@ StandardNode.prototype.build = function ( builder ) {
 			"#include <dithering_pars_fragment>",
 			"#include <fog_pars_fragment>",
 			"#include <bsdfs>",
+			"#include <cube_uv_reflection_fragment>",
+			"#include <envmap_pars_fragment>",
+			"#include <envmap_physical_pars_fragment>",
 			"#include <lights_pars_begin>",
 			"#include <lights_physical_pars_fragment>",
 			"#include <shadowmap_pars_fragment>",
@@ -197,8 +203,8 @@ StandardNode.prototype.build = function ( builder ) {
 			"	#include <normal_fragment_begin>",
 
 			// add before: prevent undeclared material
-			"	PhysicalMaterial material;",
-			"	material.diffuseColor = vec3( 1.0 );"
+			// "	PhysicalMaterial material;",
+			// "	material.diffuseColor = vec3( 1.0 );"
 		];
 
 		if ( mask ) {
@@ -249,6 +255,11 @@ StandardNode.prototype.build = function ( builder ) {
 		// optimization for now
 
 		output.push(
+			"#include <lights_physical_fragment>",
+			"#include <lights_fragment_begin>"
+		);
+
+		output.push(
 			'material.diffuseColor = ' + ( light ? 'vec3( 1.0 )' : 'diffuseColor * (1.0 - metalnessFactor)' ) + ';',
 			'material.specularRoughness = clamp( roughnessFactor, 0.04, 1.0 );'
 		);
@@ -295,7 +306,7 @@ StandardNode.prototype.build = function ( builder ) {
 		}
 
 		output.push(
-			"#include <lights_fragment_begin>"
+			"#include <lights_fragment_maps>"
 		);
 
 		if ( light ) {

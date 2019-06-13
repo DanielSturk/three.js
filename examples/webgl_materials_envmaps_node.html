@@ -280,23 +280,26 @@
 					planeMesh.material.map = newEnvMap;
 					planeMesh.material.needsUpdate = true;
 
-					var textureNode = new THREE.TextureNode(newEnvMap);
-					textureNode.encodingOverride = newEnvMap.encoding;
+					// var textureNode = new THREE.TextureNode(newEnvMap);
+					// textureNode.encodingOverride = newEnvMap.encoding;
 
-					nodeMaterial.environment = new THREE.TextureCubeNode(
-						textureNode
-					);
-					nodeMaterial.environment.uv.blinnExponentToRoughness = nodeMaterial.roughness;
+					// nodeMaterial.environment = new THREE.TextureCubeNode(
+					// 	textureNode
+					// );
+					// nodeMaterial.environment.uv.blinnExponentToRoughness = nodeMaterial.roughness;
 
-					nodeMaterial.ambient = new THREE.TextureCubeNode(
-						textureNode
-					);
-					nodeMaterial.ambient.uv.blinnExponentToRoughness = new THREE.FloatNode(1);
-					nodeMaterial.ambient.uv.uv = new THREE.NormalNode(THREE.NormalNode.WORLD);
-					nodeMaterial.ambient = new THREE.OperatorNode(
-						nodeMaterial.ambient,
-						new THREE.FloatNode(Math.PI),
-						THREE.OperatorNode.MUL);
+					// nodeMaterial.ambient = new THREE.TextureCubeNode(
+					// 	textureNode
+					// );
+					// nodeMaterial.ambient.uv.blinnExponentToRoughness = new THREE.FloatNode(1);
+					// nodeMaterial.ambient.uv.uv = new THREE.NormalNode(THREE.NormalNode.WORLD);
+					// nodeMaterial.ambient = new THREE.OperatorNode(
+					// 	nodeMaterial.ambient,
+					// 	new THREE.FloatNode(Math.PI),
+					// 	THREE.OperatorNode.MUL);
+
+					// nodeMaterial.environment = new THREE.ColorNode(new THREE.Color(1, 0, 0));
+					// nodeMaterial.ambient = new THREE.ColorNode(new THREE.Color(0, 1, 0));
 
 					console.log('New Env Map')
 					nodeMaterial.needsUpdate = true;

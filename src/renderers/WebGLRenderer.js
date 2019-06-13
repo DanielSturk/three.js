@@ -1912,6 +1912,10 @@ function WebGLRenderer( parameters ) {
 				m_uniforms.color.value.copy( material.color );
 				m_uniforms.opacity.value = material.opacity;
 
+			} else if ( material.isStandardNodeMaterial ) {
+
+				refreshUniformsEnvMap( m_uniforms, material );
+
 			}
 
 			// RectAreaLight Texture
@@ -1985,34 +1989,7 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		var envMap = material.envMap;
-		var envMapIntensity = ( material.envMapIntensity === undefined ) ? 1 : material.envMapIntensity;
-		if(!envMap) {
-			var reflectionProbes = currentRenderState.state.reflectionsArray;
-			var reflectionProbe = reflectionProbes[0]; // future work: interpolation
-			if(reflectionProbe) {
-				envMap = reflectionProbe.map;
-				envMapIntensity = reflectionProbe.intensity;
-			}
-		}
-
-		if ( envMap ) {
-
-			uniforms.envMap.value = envMap;
-
-			uniforms.envMapIntensity.value = envMapIntensity;
-
-			// don't flip CubeTexture envMaps, flip everything else:
-			//  WebGLRenderTargetCube will be flipped for backwards compatibility
-			//  WebGLRenderTargetCube.texture will be flipped because it's a Texture and NOT a CubeTexture
-			// this check must be handled differently, or removed entirely, if WebGLRenderTargetCube uses a CubeTexture in the future
-			uniforms.flipEnvMap.value = envMap.isCubeTexture ? - 1 : 1;
-
-			uniforms.refractionRatio.value = material.refractionRatio;
-
-			uniforms.maxMipLevel.value = properties.get( envMap ).__maxMipLevel;
-
-		}
+		refreshUniformsEnvMap( uniforms, material );
 
 		if ( material.lightMap ) {
 
@@ -2092,6 +2069,39 @@ function WebGLRenderer( parameters ) {
 			}
 
 			uniforms.uvTransform.value.copy( uvScaleMap.matrix );
+
+		}
+
+	}
+
+	function refreshUniformsEnvMap( uniforms, material ) {
+
+		var envMap = material.envMap;
+		var envMapIntensity = ( material.envMapIntensity === undefined ) ? 1 : material.envMapIntensity;
+		if(!envMap) {
+			var reflectionProbes = currentRenderState.state.reflectionsArray;
+			var reflectionProbe = reflectionProbes[0]; // future work: interpolation
+			if(reflectionProbe) {
+				envMap = reflectionProbe.map;
+				envMapIntensity = reflectionProbe.intensity;
+			}
+		}
+
+		if ( envMap ) {
+
+			uniforms.envMap.value = envMap;
+
+			uniforms.envMapIntensity.value = envMapIntensity;
+
+			// don't flip CubeTexture envMaps, flip everything else:
+			//  WebGLRenderTargetCube will be flipped for backwards compatibility
+			//  WebGLRenderTargetCube.texture will be flipped because it's a Texture and NOT a CubeTexture
+			// this check must be handled differently, or removed entirely, if WebGLRenderTargetCube uses a CubeTexture in the future
+			uniforms.flipEnvMap.value = envMap.isCubeTexture ? - 1 : 1;
+
+			uniforms.refractionRatio.value = material.refractionRatio;
+
+			uniforms.maxMipLevel.value = properties.get( envMap ).__maxMipLevel;
 
 		}
 
