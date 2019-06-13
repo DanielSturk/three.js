@@ -331,7 +331,7 @@ StandardNode.prototype.build = function ( builder ) {
 
 			output.push(
 				ambient.code,
-				"reflectedLight.indirectDiffuse += " + ambient.result + ";"
+				"irradiance += " + ambient.result + ";"
 			);
 
 		}
