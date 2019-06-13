@@ -13,7 +13,7 @@ export class WebGLPrograms {
 	getParameters(
 		material: ShaderMaterial,
 		lights: any,
-		reflection: any,
+		envMap: any,
 		fog: any,
 		nClipPlanes: number,
 		object: any

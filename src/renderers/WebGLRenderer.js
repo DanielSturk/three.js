@@ -1454,8 +1454,10 @@ function WebGLRenderer( parameters ) {
 
 		var lightsStateVersion = lights.state.version;
 
+		var reflectionProbe = currentRenderState.state.reflectionsArray[0];
+
 		var parameters = programCache.getParameters(
-			material, lights.state, currentRenderState.state.reflectionsArray[0], shadowsArray, fog, _clipping.numPlanes, _clipping.numIntersection, object );
+			material, lights.state, material.envMap || reflectionProbe && reflectionProbe.map || null, shadowsArray, fog, _clipping.numPlanes, _clipping.numIntersection, object );
 
 		var code = programCache.getProgramCode( material, parameters );
 
