@@ -25,10 +25,20 @@ export default /* glsl */`
 
 #if defined( USE_ENVMAP ) && defined( RE_IndirectSpecular )
 
-	radiance += getLightProbeIndirectRadiance( /*specularLightProbe,*/ geometry, Material_BlinnShininessExponent( material ), maxMipLevel );
+	#ifdef ANISOTROPY
+
+		vec3 bentNormal = getBentNormal(geometry, anisotropyFactor, roughnessFactor);
+
+	#else
+
+		vec3 bentNormal = geometry.normal;
+
+	#endif
+
+	radiance += getLightProbeIndirectRadiance( /*specularLightProbe,*/ geometry, bentNormal, Material_BlinnShininessExponent( material ), maxMipLevel );
 
 	#ifndef STANDARD
-		clearCoatRadiance += getLightProbeIndirectRadiance( /*specularLightProbe,*/ geometry, Material_ClearCoat_BlinnShininessExponent( material ), maxMipLevel );
+		clearCoatRadiance += getLightProbeIndirectRadiance( /*specularLightProbe,*/ geometry, bentNormal, Material_ClearCoat_BlinnShininessExponent( material ), maxMipLevel );
 	#endif
 
 #endif

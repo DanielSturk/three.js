@@ -52,6 +52,7 @@ varying vec3 vViewPosition;
 #include <metalnessmap_pars_fragment>
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
+#include <anisotropy_pars_fragment>
 
 void main() {
 
@@ -71,6 +72,7 @@ void main() {
 	#include <normal_fragment_begin>
 	#include <normal_fragment_maps>
 	#include <emissivemap_fragment>
+	#include <anisotropy_fragment>
 
 	// accumulation
 	#include <lights_physical_fragment>

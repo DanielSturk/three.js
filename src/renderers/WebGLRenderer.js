@@ -2274,6 +2274,12 @@ function WebGLRenderer( parameters ) {
 
 		uniforms.reflectivity.value = material.reflectivity; // also part of uniforms common
 
+		uniforms.anisotropy.value = material.anisotropy;
+		uniforms.anisotropyMap.value = material.anisotropyMap;
+
+		uniforms.anisotropyRotation.value = material.anisotropyRotation;
+		uniforms.anisotropyRotationMap.value = material.anisotropyRotationMap;
+
 		uniforms.clearCoat.value = material.clearCoat;
 		uniforms.clearCoatRoughness.value = material.clearCoatRoughness;
 

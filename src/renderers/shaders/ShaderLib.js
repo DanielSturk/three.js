@@ -271,6 +271,7 @@ ShaderLib.physical = {
 
 	uniforms: mergeUniforms( [
 		ShaderLib.standard.uniforms,
+		UniformsLib.anisotropy,
 		{
 			clearCoat: { value: 0 },
 			clearCoatRoughness: { value: 0 }

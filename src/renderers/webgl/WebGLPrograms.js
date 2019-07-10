@@ -5,6 +5,8 @@
 import { BackSide, DoubleSide, CubeUVRefractionMapping, CubeUVReflectionMapping, GammaEncoding, LinearEncoding, ObjectSpaceNormalMap } from '../../constants.js';
 import { WebGLProgram } from './WebGLProgram.js';
 
+var warnedAnisotropy = false;
+
 function WebGLPrograms( renderer, extensions, capabilities ) {
 
 	var programs = [];
@@ -37,7 +39,8 @@ function WebGLPrograms( renderer, extensions, capabilities ) {
 		"maxMorphTargets", "maxMorphNormals", "premultipliedAlpha",
 		"numDirLights", "numPointLights", "numSpotLights", "numHemiLights", "numRectAreaLights",
 		"shadowMapEnabled", "shadowMapType", "toneMapping", 'physicallyCorrectLights',
-		"alphaTest", "doubleSided", "flipSided", "numClippingPlanes", "numClipIntersection", "depthPacking", "dithering"
+		"alphaTest", "doubleSided", "flipSided", "numClippingPlanes", "numClipIntersection", "depthPacking", "dithering",
+		"anisotropy", "anisotropyMap", "anisotropyRotationMap"
 	];
 
 
@@ -131,6 +134,8 @@ function WebGLPrograms( renderer, extensions, capabilities ) {
 
 		var currentRenderTarget = renderer.getRenderTarget();
 
+		var anisotropy = !!material.anisotropy;
+
 		var parameters = {
 
 			shaderID: shaderID,
@@ -163,8 +168,12 @@ function WebGLPrograms( renderer, extensions, capabilities ) {
 
 			combine: material.combine,
 
-			vertexTangents: ( material.normalMap && material.vertexTangents ),
+			vertexTangents: ( ( material.normalMap || anisotropy ) && material.vertexTangents ),
 			vertexColors: material.vertexColors,
+
+			anisotropy: anisotropy,
+			anisotropyMap: anisotropy && !! material.anisotropyMap,
+			anisotropyRotationMap: anisotropy && !! material.anisotropyRotationMap,
 
 			fog: !! fog,
 			useFog: material.fog,
@@ -210,6 +219,13 @@ function WebGLPrograms( renderer, extensions, capabilities ) {
 			depthPacking: ( material.depthPacking !== undefined ) ? material.depthPacking : false
 
 		};
+
+		if( anisotropy && !parameters.vertexTangents && !warnedAnisotropy ) {
+
+			console.warn( 'Warning: implicit tangents for anisotropy will be flat shaded. Consider using BufferGeometryUtils.computeTangents().', material );
+			warnedAnisotropy = true;
+
+		}
 
 		return parameters;
 
